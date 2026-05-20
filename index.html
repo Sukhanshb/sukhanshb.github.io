@@ -32,7 +32,6 @@
       cursor: none;
     }
 
-    /* Custom cursor */
     .cursor {
       position: fixed;
       width: 8px;
@@ -55,9 +54,7 @@
       transform: translate(-50%, -50%);
       transition: all 0.12s ease;
     }
-    body:hover .cursor { opacity: 1; }
 
-    /* Noise overlay */
     body::before {
       content: '';
       position: fixed;
@@ -68,12 +65,9 @@
       opacity: 0.4;
     }
 
-    /* NAV */
     nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       z-index: 50;
       padding: 28px 48px;
       display: flex;
@@ -119,7 +113,6 @@
 
     .nav-links a:hover { color: var(--accent); }
 
-    /* HERO */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -140,17 +133,14 @@
 
     .hero-line {
       position: absolute;
-      top: 0;
-      right: 160px;
-      width: 1px;
-      height: 100%;
+      top: 0; right: 160px;
+      width: 1px; height: 100%;
       background: linear-gradient(to bottom, transparent, var(--border) 20%, var(--border) 80%, transparent);
     }
 
     .hero-number {
       position: absolute;
-      top: 50%;
-      right: 48px;
+      top: 50%; right: 48px;
       transform: translateY(-50%);
       font-family: 'DM Mono', monospace;
       font-size: 10px;
@@ -180,11 +170,6 @@
       opacity: 0;
       animation: fadeUp 1s ease forwards 0.5s;
       position: relative;
-    }
-
-    .hero-name .outline {
-      -webkit-text-stroke: 1px rgba(232,228,220,0.2);
-      color: transparent;
     }
 
     .hero-name .ghost {
@@ -219,8 +204,7 @@
     }
 
     .hero-descriptor-line {
-      width: 48px;
-      height: 1px;
+      width: 48px; height: 1px;
       background: var(--accent);
     }
 
@@ -254,13 +238,11 @@
     }
 
     .scroll-line {
-      width: 1px;
-      height: 40px;
+      width: 1px; height: 40px;
       background: linear-gradient(to bottom, var(--accent), transparent);
       animation: scrollPulse 2s ease infinite 2s;
     }
 
-    /* ABOUT */
     .about {
       padding: 160px 48px;
       display: grid;
@@ -274,9 +256,7 @@
     .about::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 48px;
-      right: 48px;
+      top: 0; left: 48px; right: 48px;
       height: 1px;
       background: var(--border);
     }
@@ -344,7 +324,6 @@
       font-weight: 400;
     }
 
-    /* STATS ROW */
     .stats {
       padding: 0 48px 160px;
       max-width: 1200px;
@@ -376,9 +355,7 @@
       letter-spacing: 0.02em;
     }
 
-    .stat-number span {
-      color: var(--accent);
-    }
+    .stat-number span { color: var(--accent); }
 
     .stat-label {
       margin-top: 12px;
@@ -389,7 +366,6 @@
       text-transform: uppercase;
     }
 
-    /* CTA */
     .cta-section {
       padding: 0 48px 160px;
       max-width: 1200px;
@@ -404,9 +380,7 @@
     .cta-section::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 48px;
-      right: 48px;
+      top: 0; left: 48px; right: 48px;
       height: 1px;
       background: var(--border);
     }
@@ -460,7 +434,6 @@
 
     .btn-shotlist:hover::before { transform: translateX(0); }
     .btn-shotlist:hover { color: var(--black); }
-
     .btn-shotlist span { position: relative; z-index: 1; }
 
     .btn-arrow {
@@ -472,14 +445,12 @@
 
     .btn-shotlist:hover .btn-arrow { transform: translateX(4px); }
 
-    /* FOOTER */
     footer {
       border-top: 1px solid var(--border);
       padding: 40px 48px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      max-width: 100%;
     }
 
     footer p {
@@ -491,24 +462,21 @@
     }
 
     .footer-dot {
-      width: 4px;
-      height: 4px;
+      width: 4px; height: 4px;
       border-radius: 50%;
       background: var(--accent);
     }
 
-    /* ANIMATIONS */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(24px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     @keyframes scrollPulse {
-      0%, 100% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+      0%, 100% { opacity: 1; }
       50% { opacity: 0.3; }
     }
 
-    /* MOBILE */
     @media (max-width: 768px) {
       nav { padding: 24px; }
       .nav-links { display: none; }
@@ -531,7 +499,6 @@
   <div class="cursor" id="cursor"></div>
   <div class="cursor-ring" id="cursorRing"></div>
 
-  <!-- NAV -->
   <nav>
     <div class="nav-logo">Sukhansh</div>
     <ul class="nav-links">
@@ -541,52 +508,39 @@
     </ul>
   </nav>
 
-  <!-- HERO -->
   <section class="hero">
     <div class="hero-bg"></div>
     <div class="hero-line"></div>
     <div class="hero-number">Mumbai — Production</div>
-
     <div class="hero-eyebrow">Production Manager · Mumbai</div>
     <h1 class="hero-name">
       <span class="ghost">SUKHI</span>
-      <span class="main">SUK<span class="outline">HANSH</span></span>
+      <span class="main">SUKHANSH</span>
     </h1>
     <div class="hero-descriptor">
       <div class="hero-descriptor-line"></div>
       <p>Where creative vision meets operational precision</p>
     </div>
-
     <div class="scroll-hint">
       <span>Scroll</span>
       <div class="scroll-line"></div>
     </div>
   </section>
 
-  <!-- ABOUT -->
   <section class="about" id="about">
     <div class="about-left">
       <div class="section-label">About</div>
       <h2 class="about-heading">
-        Built from<br>
-        the ground<br>
-        <em>up.</em>
+        Built from<br>the ground<br><em>up.</em>
       </h2>
     </div>
     <div class="about-right">
-      <p>
-        I'm Sukhansh — a production manager based in Mumbai. I <strong>started as a self-taught video editor during lockdown</strong>, sent my first edit to Suhani Shah's team with spelling errors, and got hired.
-      </p>
-      <p>
-        Over the last <strong>4 years</strong>, I've grown from freelance editor to building and managing her entire production — stage, shoots, team, and operations. I've built content channels past <strong>a million</strong>, managed live show production and backstage across India, and now oversee everything from pre-production planning to on-ground execution.
-      </p>
-      <p>
-        I work at the <strong>intersection of creative and operational</strong> — I understand both the art and the machinery behind it.
-      </p>
+      <p>I'm Sukhansh — a production manager based in Mumbai. I <strong>started as a self-taught video editor during lockdown</strong>, sent my first edit to Suhani Shah's team with spelling errors, and got hired.</p>
+      <p>Over the last <strong>4 years</strong>, I've grown from freelance editor to building and managing her entire production — stage, shoots, team, and operations. I've built content channels past <strong>a million</strong>, managed live show production and backstage across India, and now oversee everything from pre-production planning to on-ground execution.</p>
+      <p>I work at the <strong>intersection of creative and operational</strong> — I understand both the art and the machinery behind it.</p>
     </div>
   </section>
 
-  <!-- STATS -->
   <div class="stats" id="work">
     <div class="stats-grid">
       <div class="stat-item">
@@ -604,19 +558,15 @@
     </div>
   </div>
 
-  <!-- CTA -->
   <section class="cta-section">
     <p class="cta-eyebrow">Work</p>
-    <h2 class="cta-heading">
-      See the work<br>behind the <em>scenes.</em>
-    </h2>
+    <h2 class="cta-heading">See the work<br>behind the <em>scenes.</em></h2>
     <a href="shotlist.html" class="btn-shotlist">
       <span>View Shotlist</span>
       <span class="btn-arrow">→</span>
     </a>
   </section>
 
-  <!-- FOOTER -->
   <footer>
     <p>© 2026 Sukhansh</p>
     <div class="footer-dot"></div>
@@ -624,7 +574,6 @@
   </footer>
 
   <script>
-    // Custom cursor
     const cursor = document.getElementById('cursor');
     const ring = document.getElementById('cursorRing');
     let mx = 0, my = 0, rx = 0, ry = 0;
@@ -659,13 +608,11 @@
       });
     });
 
-    // Scroll reveal
     const observer = new IntersectionObserver(entries => {
-      entries.forEach((entry, i) => {
+      entries.forEach(entry => {
         if (entry.isIntersecting) {
           if (entry.target.classList.contains('stat-item')) {
-            const items = document.querySelectorAll('.stat-item');
-            items.forEach((item, idx) => {
+            document.querySelectorAll('.stat-item').forEach((item, idx) => {
               setTimeout(() => item.classList.add('visible'), idx * 120);
             });
           } else {
