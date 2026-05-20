@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Shotlist – Gamma Ad</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0e0e0e;
+    --surface: #161616;
+    --border: #2a2a2a;
+    --accent: #c8f04a;
+    --text: #e8e8e0;
+    --muted: #666;
+    --row-alt: #131313;
+    --tag-wide: #10b981;
+    --tag-med:  #8b5cf6;
+    --tag-cu:   #ec4899;
+    --tag-2s:   #14b8a6;
+    --tag-gfx:  #f97316;
+    --tag-broll:#3b82f6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    padding: 48px 32px;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
+    margin-bottom: 36px;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .meta-row span { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+  /* ── CAMERA NOTES ── */
+  .cam-block {
+    margin-bottom: 36px;
+  }
+  .block-label {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .cam-grid {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .cam-row {
+    display: contents;
+  }
+  .cam-row:nth-child(odd) .cam-key,
+  .cam-row:nth-child(odd) .cam-val {
+    background: var(--surface);
+  }
+  .cam-row:nth-child(even) .cam-key,
+  .cam-row:nth-child(even) .cam-val {
+    background: var(--row-alt);
+  }
+  .cam-key {
+    padding: 8px 12px;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .cam-val {
+    padding: 8px 14px;
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.5;
+    border-bottom: 1px solid var(--border);
+  }
+  .cam-row:last-child .cam-key,
+  .cam-row:last-child .cam-val { border-bottom: none; }
+  .warn { color: #fbbf24; }
+
+  /* ── SHOT TABLE ── */
+  .table-wrap { overflow-x: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px;
+  }
+  thead tr {
+    background: #1a1a1a;
+    border-bottom: 2px solid var(--accent);
+  }
+  th {
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.12s; }
+  tbody tr:nth-child(even):not(.divider) { background: var(--row-alt); }
+  tbody tr:hover:not(.divider) { background: #1c1c1c; }
+
+  td { padding: 10px 12px; vertical-align: top; line-height: 1.55; }
+
+  .shot-num { color: var(--accent); font-weight: 500; font-size: 12px; white-space: nowrap; width: 44px; }
+  .scene-name { color: var(--text); }
+  .focal { color: var(--muted); font-size: 11px; white-space: nowrap; }
+  .action-text { color: var(--text); font-size: 12px; }
+  .note-text { color: var(--muted); font-size: 11px; font-style: italic; display: block; margin-top: 3px; }
+  .audio-text { color: #a3a3a3; font-size: 11px; }
+  .backdrop-text { color: #a3a3a3; font-size: 11px; }
+
+  /* Section divider */
+  tr.divider td {
+    padding: 14px 12px 5px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    background: #111 !important;
+    border-bottom: 1px solid #222;
+  }
+
+  /* Badges */
+  .badge {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .wide { background: rgba(16,185,129,.15); color: #6ee7b7; border: 1px solid rgba(16,185,129,.3); }
+  .med  { background: rgba(139,92,246,.15); color: #c4b5fd; border: 1px solid rgba(139,92,246,.3); }
+  .cu   { background: rgba(236,72,153,.15); color: #f9a8d4; border: 1px solid rgba(236,72,153,.3); }
+  .twoshot { background: rgba(20,184,166,.15); color: #5eead4; border: 1px solid rgba(20,184,166,.3); }
+  .gfx  { background: rgba(249,115,22,.15);  color: #fdba74; border: 1px solid rgba(249,115,22,.3); }
+  .broll{ background: rgba(59,130,246,.15);  color: #93c5fd; border: 1px solid rgba(59,130,246,.3); }
+
+  /* ── FOOTER ── */
+  footer {
+    margin-top: 36px;
+    border-top: 1px solid var(--border);
+    padding-top: 18px;
+    color: var(--muted);
+    font-size: 11px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
+  }
+  .legend { display: flex; align-items: center; gap: 6px; }
+  .footer-right { margin-left: auto; color: #444; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>SHOTLIST</h1>
+  <div class="meta-row">
+    <span><div class="dot"></div>PROJECT: GAMMA – BRAND AD</span>
+    <span>INT. STUDIO SET – DAY</span>
+    <span>TALENT: SUHANI</span>
+    <span>CAMERA: SONY A7C</span>
+    <span>LENS: SIGMA 24–70MM</span>
+    <span>BACKDROP: OFF-WHITE PAPER ROLL</span>
+  </div>
+</header>
+
+<!-- CAMERA / LENS / BACKDROP NOTES -->
+<div class="cam-block">
+  <div class="block-label">▸ Camera · Lens · Backdrop Notes</div>
+  <div class="cam-grid">
+    <div class="cam-row">
+      <div class="cam-key">Camera</div>
+      <div class="cam-val">Sony A7C</div>
+    </div>
+    <div class="cam-row">
+      <div class="cam-key">Lens</div>
+      <div class="cam-val">Sigma 24–70mm f/2.8</div>
+    </div>
+    <div class="cam-row">
+      <div class="cam-key">Backdrop</div>
+      <div class="cam-val">Off-white paper roll throughout. Dark grey on standby for pickups only — it kills the visible-set context needed in wide shots.</div>
+    </div>
+    <div class="cam-row">
+      <div class="cam-key">Wide shots<br/>24mm</div>
+      <div class="cam-val">Full set visible — backdrop roll, light stands, boom, chair, cables. Dress the set <em>intentionally</em> before rolling. This is production design, not an accident.</div>
+    </div>
+    <div class="cam-row">
+      <div class="cam-key">Med. coverage<br/>50mm</div>
+      <div class="cam-val">Workhorse for all principal dialogue. Flattering perspective, natural compression, f/2.8 gives clean subject separation.</div>
+    </div>
+    <div class="cam-row">
+      <div class="cam-key">Close-ups<br/>70mm</div>
+      <div class="cam-val">Reactions and emotional beats. BG compresses and goes soft at f/2.8. Isolates Suhani's face cleanly against the off-white.</div>
+    </div>
+    <div class="cam-row">
+      <div class="cam-key">ECU (shots 14, 18)</div>
+      <div class="cam-val">Move the camera physically closer — do not crop in post. The 24–70 won't reach a true ECU from a comfortable distance.</div>
+    </div>
+    <div class="cam-row">
+      <div class="cam-key warn">⚠ Distortion</div>
+      <div class="cam-val warn">Sigma at 24mm shows barrel distortion on A7C. Apply lens correction profile in Premiere or Lightroom — backdrop lines will bow otherwise.</div>
+    </div>
+    <div class="cam-row">
+      <div class="cam-key warn">⚠ Shot 11</div>
+      <div class="cam-val warn">Critical shot. Use fluid head or IBIS locked to a single axis. No handheld shake — at 70mm f/2.8 even small movement reads.</div>
+    </div>
+    <div class="cam-row">
+      <div class="cam-key warn">⚠ Cards</div>
+      <div class="cam-val warn">A7C is single card slot. Have a backup card plan before the shoot day starts.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SHOT TABLE -->
+<div class="block-label">▸ Shot List</div>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Scene / Beat</th>
+      <th>Type</th>
+      <th>Focal</th>
+      <th>Action / Description</th>
+      <th>Audio</th>
+      <th>Backdrop</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <!-- SCENE 1 -->
+    <tr class="divider"><td colspan="7">▸ Scene 1 — Clean Setup / Take 1</td></tr>
+
+    <tr>
+      <td class="shot-num">01</td>
+      <td class="scene-name">Studio establish</td>
+      <td><span class="badge wide">Wide</span></td>
+      <td class="focal">24mm</td>
+      <td class="action-text">Full studio reveal. Clean P2C rig. Lights up, Suhani centred. Pre-action stillness.<span class="note-text">Correct barrel distortion in post.</span></td>
+      <td class="audio-text">Ambient hum, light buzz</td>
+      <td class="backdrop-text">Off-white — full backdrop + rig &amp; lights visible</td>
+    </tr>
+
+    <tr>
+      <td class="shot-num">02</td>
+      <td class="scene-name">Suhani – opening line</td>
+      <td><span class="badge med">Med.</span></td>
+      <td class="focal">50mm</td>
+      <td class="action-text">Suhani faces camera: "So today I'm going to show you,"</td>
+      <td class="audio-text">Clean dialogue</td>
+      <td class="backdrop-text">Off-white</td>
+    </tr>
+
+    <tr>
+      <td class="shot-num">03</td>
+      <td class="scene-name">Glass drop – O.S.</td>
+      <td><span class="badge med">Med.</span></td>
+      <td class="focal">50mm</td>
+      <td class="action-text">CLANG off-screen. Suhani pauses mid-sentence, glances off-frame. Micro-reaction.<span class="note-text">Hold on Suhani — do not cut away immediately.</span></td>
+      <td class="audio-text"><strong>SFX:</strong> glass drop. Natural room reaction.</td>
+      <td class="backdrop-text">Off-white</td>
+    </tr>
+
+    <tr>
+      <td class="shot-num">03A</td>
+      <td class="scene-name">Glass drop – cutaway</td>
+      <td><span class="badge cu">CU</span></td>
+      <td class="focal">70mm</td>
+      <td class="action-text">Glass rolling/settled on floor. Optional insert.<span class="note-text">Decide in edit whether to use.</span></td>
+      <td class="audio-text">Tail of SFX</td>
+      <td class="backdrop-text">—</td>
+    </tr>
+
+    <tr>
+      <td class="shot-num">04</td>
+      <td class="scene-name">"It's fine." recovery</td>
+      <td><span class="badge cu">CU</span></td>
+      <td class="focal">70mm</td>
+      <td class="action-text">Suhani looks back at camera: "It's fine. Let's go again." Forced composure.<span class="note-text">f/2.8 to compress and soften BG.</span></td>
+      <td class="audio-text">Hold silence after line.</td>
+      <td class="backdrop-text">Off-white, shallow DOF</td>
+    </tr>
+
+    <!-- SCENE 2 -->
+    <tr class="divider"><td colspan="7">▸ Scene 2 — Take 2: Mic Adjustment</td></tr>
+
+    <tr>
+      <td class="shot-num">05</td>
+      <td class="scene-name">Take 2 – Suhani resumes</td>
+      <td><span class="badge med">Med.</span></td>
+      <td class="focal">50mm</td>
+      <td class="action-text">"So today I'm going to show you how,"</td>
+      <td class="audio-text">Clean dialogue</td>
+      <td class="backdrop-text">Off-white</td>
+    </tr>
+
+    <tr>
+      <td class="shot-num">06</td>
+      <td class="scene-name">Crew O.S. – mic note</td>
+      <td><span class="badge med">Med.</span></td>
+      <td class="focal">50mm</td>
+      <td class="action-text">Crew O.S.: "Mic thoda upar karo." Suhani adjusts lapel.<span class="note-text">Hold on Suhani face throughout.</span></td>
+      <td class="audio-text">O.S. crew voice, casual</td>
+      <td class="backdrop-text">Off-white</td>
+    </tr>
+
+    <tr>
+      <td class="shot-num">06A</td>
+      <td class="scene-name">Mic adjust – insert</td>
+      <td><span class="badge cu">CU</span></td>
+      <td class="focal">70mm</td>
+      <td class="action-text">Hands adjusting lapel mic. Detail shot.<span class="note-text">Check Sigma min focus distance.</span></td>
+      <td class="audio-text">—</td>
+      <td class="backdrop-text">—</td>
+    </tr>
+
+    <tr>
+      <td class="shot-num">07</td>
+      <td class="scene-name">Suhani speeds up</td>
+      <td><span class="badge cu">CU</span></td>
+      <td class="focal">70mm</td>
+      <td class="action-text">Faster delivery: "So today I'm going to show you how," — visible effort to push through.</td>
+      <td class="audio-text">Slightly clipped delivery</td>
+      <td class="backdrop-text">Off-white, shallow DOF</td>
+    </tr>
+
+    <!-- SCENE 3 -->
+    <tr class="divider"><td colspan="7">▸ Scene 3 — Prop Interruption</td></tr>
+
+    <tr>
+      <td class="shot-num">08</td>
+      <td class="scene-name">Crew rushes into frame</td>
+      <td><span class="badge wide">Wide</span></td>
+      <td class="focal">24mm</td>
+      <td class="action-text">Crew dashes in, places prop, "Sorry, prop reh gaya tha." Exits.<span class="note-text">Dress the set intentionally before rolling — backdrop roll, stands, cables should look purposeful.</span></td>
+      <td class="audio-text">Footsteps, muttered apology</td>
+      <td class="backdrop-text">Off-white — full set visible at 24mm</td>
+    </tr>
+
+    <tr>
+      <td class="shot-num">08A</td>
+      <td class="scene-name">Suhani watches crew</td>
+      <td><span class="badge cu">CU</span></td>
+      <td class="focal">70mm</td>
+      <td class="action-text">Tight on Suhani watching them leave. Forces polite smile. Eyes betray exhaustion.</td>
+      <td class="audio-text">—</td>
+      <td class="backdrop-text">Off-white, shallow DOF</td>
+    </tr>
+
+    <tr>
+      <td class="shot-num">09</td>
+      <td class="scene-name">Resumes — "So today,"</td>
+      <td><span class="badge med">Med.</span></td>
+      <td class="focal">50mm</td>
+      <td class="action-text">"So today," — interrupted again immediately.</td>
+      <td class="audio-text">Clean dialogue</td>
+      <td class="backdrop-text">Off-white</td>
+    </tr>
+
+    <!-- SCENE 4 -->
+    <tr class="divider"><td colspan="7">▸ Scene 4 — Phone Ring / Breaking Point</td></tr>
+
+    <tr>
+      <td class="shot-num">10</td>
+      <td class="scene-name">Phone rings O.S.</td>
+      <td><span class="badge med">Med.</span></td>
+      <td class="focal">50mm</td>
+      <td class="action-text">Loud ring O.S. Suhani stops cold mid-sentence.</td>
+      <td class="audio-text"><strong>SFX:</strong> ringtone, loud, jarring</td>
+      <td class="backdrop-text">Off-white</td>
+    </tr>
+
+    <tr>
+      <td class="shot-num">11</td>
+      <td class="scene-name">Eyes close – breath</td>
+      <td><span class="badge cu">CU</span></td>
+      <td class="focal">70mm</td>
+      <td class="action-text">Suhani closes eyes. Deep breath. Stillness. <strong>Emotional pivot of the piece.</strong><span class="note-text">⚠ Fluid head or IBIS single-axis lock. At 70mm f/2.8 any shake reads. This shot needs to feel completely still.</span></td>
+      <td class="audio-text">Near-silence. Room tone only. Hold.</td>
+      <td class="backdrop-text">Off-white, very shallow DOF</td>
+    </tr>
+
+    <!-- SCENE 5 -->
+    <tr class="divider"><td colspan="7">▸ Scene 5 — Unsolicited Note + Silence</td></tr>
+
+    <tr>
+      <td class="shot-num">12</td>
+      <td class="scene-name">Suhani resumes – app line</td>
+      <td><span class="badge med">Med.</span></td>
+      <td class="focal">50mm</td>
+      <td class="action-text">"So today I'm going to talk about an app that," — interrupted.</td>
+      <td class="audio-text">Clean dialogue</td>
+      <td class="backdrop-text">Off-white</td>
+    </tr>
+
+    <tr>
+      <td class="shot-num">13</td>
+      <td class="scene-name">Crew cuts in</td>
+      <td><span class="badge twoshot">2-Shot</span></td>
+      <td class="focal">35–50mm</td>
+      <td class="action-text">Crew O.S. or barely in frame: "I think the line was,"<span class="note-text">Widen enough to catch the crew edge in frame.</span></td>
+      <td class="audio-text">Tentative crew voice</td>
+      <td class="backdrop-text">Off-white — wider frame</td>
+    </tr>
+
+    <tr>
+      <td class="shot-num">14</td>
+      <td class="scene-name">"Silence."</td>
+      <td><span class="badge cu">CU</span></td>
+      <td class="focal">70mm + move in</td>
+      <td class="action-text">Suhani: "Silence." Flat. Commanding. Eyes front. Beat hangs.<span class="note-text">Move camera physically closer for ECU — do not crop in post.</span></td>
+      <td class="audio-text">Complete silence. No room tone cuts.</td>
+      <td class="backdrop-text">Off-white, tight DOF</td>
+    </tr>
+
+    <!-- SCENE 6 -->
+    <tr class="divider"><td colspan="7">▸ Scene 6 — Payoff Monologue + Tag</td></tr>
+
+    <tr>
+      <td class="shot-num">15</td>
+      <td class="scene-name">Direct address – opens</td>
+      <td><span class="badge med">Med.</span></td>
+      <td class="focal">50mm</td>
+      <td class="action-text">"You know, this is what happens to an idea when something keeps distracting you." Measured. Wry. Direct.</td>
+      <td class="audio-text">Clean dialogue. No music yet.</td>
+      <td class="backdrop-text">Off-white</td>
+    </tr>
+
+    <tr>
+      <td class="shot-num">16</td>
+      <td class="scene-name">Gamma value prop</td>
+      <td><span class="badge med">Med.</span></td>
+      <td class="focal">50mm</td>
+      <td class="action-text">"I was supposed to talk about how Gamma lets you focus peacefully on your task. From thought to idea, it happens quickly, with no interruption or friction."</td>
+      <td class="audio-text">Soft underscore begins (optional)</td>
+      <td class="backdrop-text">Off-white</td>
+    </tr>
+
+    <tr>
+      <td class="shot-num">17</td>
+      <td class="scene-name">"But thanks to my team…"</td>
+      <td><span class="badge cu">CU</span></td>
+      <td class="focal">70mm</td>
+      <td class="action-text">"But thanks to my team, you've already seen that in action." Small knowing smile. Pause.</td>
+      <td class="audio-text">Beat of silence before tag.</td>
+      <td class="backdrop-text">Off-white, shallow DOF</td>
+    </tr>
+
+    <tr>
+      <td class="shot-num">18</td>
+      <td class="scene-name">"So try Gamma." — TAG</td>
+      <td><span class="badge cu">CU</span></td>
+      <td class="focal">70mm + move in</td>
+      <td class="action-text">"So try Gamma." Direct. Simple. Confident. Hold on face 1–2s post-line.<span class="note-text">f/2.8 — let BG go fully soft. Move in for ECU, don't crop.</span></td>
+      <td class="audio-text">Music resolve or silence → logo sting</td>
+      <td class="backdrop-text">Off-white, tight</td>
+    </tr>
+
+    <tr>
+      <td class="shot-num">19</td>
+      <td class="scene-name">CUT – logo card</td>
+      <td><span class="badge gfx">GFX</span></td>
+      <td class="focal">—</td>
+      <td class="action-text">Hard cut to black. Gamma logo lockup. Optional end card.</td>
+      <td class="audio-text">Logo sting / music out</td>
+      <td class="backdrop-text">—</td>
+    </tr>
+
+    <!-- B-ROLL -->
+    <tr class="divider"><td colspan="7">▸ B-Roll / Coverage</td></tr>
+
+    <tr>
+      <td class="shot-num">B01</td>
+      <td class="scene-name">Studio overview</td>
+      <td><span class="badge wide">Wide</span></td>
+      <td class="focal">24mm</td>
+      <td class="action-text">Full set with crew in motion. Establishes chaotic energy pre-action.<span class="note-text">Correct barrel distortion in post.</span></td>
+      <td class="audio-text">Nat sound</td>
+      <td class="backdrop-text">Off-white — show backdrop roll, stands, paper edges</td>
+    </tr>
+
+    <tr>
+      <td class="shot-num">B02</td>
+      <td class="scene-name">Crew activity details</td>
+      <td><span class="badge cu">CU</span></td>
+      <td class="focal">70mm</td>
+      <td class="action-text">Hands on equipment, props moved, monitors, cables — chaos texture.</td>
+      <td class="audio-text">—</td>
+      <td class="backdrop-text">—</td>
+    </tr>
+
+    <tr>
+      <td class="shot-num">B03</td>
+      <td class="scene-name">Suhani hands / posture</td>
+      <td><span class="badge cu">CU</span></td>
+      <td class="focal">70mm</td>
+      <td class="action-text">Fidgeting, resetting, gripping notes — physical tension throughout takes.</td>
+      <td class="audio-text">—</td>
+      <td class="backdrop-text">—</td>
+    </tr>
+
+    <tr>
+      <td class="shot-num">B04</td>
+      <td class="scene-name">Monitor / camera POV</td>
+      <td><span class="badge cu">CU</span></td>
+      <td class="focal">—</td>
+      <td class="action-text">View of Suhani through video village monitor.<span class="note-text">Meta layer — watching the filming.</span></td>
+      <td class="audio-text">—</td>
+      <td class="backdrop-text">—</td>
+    </tr>
+
+  </tbody>
+</table>
+</div>
+
+<footer>
+  <div class="legend"><span class="badge wide">Wide</span> Wide Shot</div>
+  <div class="legend"><span class="badge med">Med.</span> Medium Shot</div>
+  <div class="legend"><span class="badge cu">CU</span> Close-Up / ECU</div>
+  <div class="legend"><span class="badge twoshot">2-Shot</span> Two-Shot</div>
+  <div class="legend"><span class="badge gfx">GFX</span> Motion / Graphics</div>
+  <div class="footer-right">TOTAL SETUPS: 19 + 4 B-ROLL &nbsp;·&nbsp; SIGMA 24–70 ON SONY A7C</div>
+</footer>
+
+</body>
+</html>
