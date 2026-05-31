@@ -60,6 +60,7 @@
       opacity: 0.4;
     }
 
+    /* NAV */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -103,6 +104,7 @@
     }
     .nav-links a:hover { color: var(--accent); }
 
+    /* HERO */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -111,14 +113,12 @@
       position: relative;
       overflow: hidden;
     }
-
     .hero-photo {
       position: absolute;
       inset: 0;
       background: url('sukhansh-bw.jpg') center 20% / cover no-repeat;
       z-index: 0;
     }
-
     .hero-photo::after {
       content: '';
       position: absolute;
@@ -127,7 +127,6 @@
         linear-gradient(to bottom, rgba(8,8,8,0.3) 0%, rgba(8,8,8,0.05) 35%, rgba(8,8,8,0.55) 100%),
         linear-gradient(to right, rgba(8,8,8,0.5) 0%, transparent 35%, transparent 65%, rgba(8,8,8,0.5) 100%);
     }
-
     .hero-text-wrap {
       position: relative;
       z-index: 2;
@@ -136,7 +135,6 @@
       flex-direction: column;
       align-items: center;
     }
-
     .hero-eyebrow {
       font-family: 'DM Mono', monospace;
       font-size: 10px;
@@ -147,7 +145,6 @@
       opacity: 0;
       animation: fadeUp 0.8s ease forwards 0.3s;
     }
-
     .hero-name {
       position: relative;
       display: flex;
@@ -156,7 +153,6 @@
       opacity: 0;
       animation: fadeUp 1s ease forwards 0.5s;
     }
-
     .hero-name .ghost {
       position: absolute;
       top: 50%; left: 50%;
@@ -172,7 +168,6 @@
       white-space: nowrap;
       z-index: 0;
     }
-
     .hero-name .main {
       position: relative;
       z-index: 1;
@@ -182,7 +177,6 @@
       letter-spacing: 0.06em;
       color: #fff;
     }
-
     .hero-descriptor {
       margin-top: 24px;
       display: flex;
@@ -199,7 +193,6 @@
       color: rgba(255,255,255,0.55);
       letter-spacing: 0.04em;
     }
-
     .scroll-hint {
       position: absolute;
       bottom: 40px; left: 50%;
@@ -221,6 +214,7 @@
     }
     .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--accent), transparent); }
 
+    /* ABOUT */
     .about {
       padding: 160px 48px;
       display: grid;
@@ -270,6 +264,55 @@
     .about-right p { font-size: 19px; font-weight: 300; line-height: 1.75; color: rgba(232,228,220,0.75); }
     .about-right p strong { color: var(--text); font-weight: 400; }
 
+
+    /* GALLERY */
+    .gallery {
+      padding: 0 0 120px;
+      position: relative;
+      overflow: hidden;
+    }
+    .gallery-track-wrap {
+      overflow-x: auto;
+      overflow-y: visible;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      cursor: grab;
+      padding: 40px 48px;
+    }
+    .gallery-track-wrap::-webkit-scrollbar { display: none; }
+    .gallery-track-wrap:active { cursor: grabbing; }
+    .gallery-track {
+      display: flex;
+      gap: 16px;
+      width: max-content;
+      align-items: center;
+    }
+    .gallery-item {
+      position: relative;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .gallery-item:nth-child(odd) {
+      width: 420px;
+      height: 300px;
+      margin-top: -30px;
+    }
+    .gallery-item:nth-child(even) {
+      width: 320px;
+      height: 240px;
+      margin-top: 30px;
+    }
+    .gallery-item:first-child { width: 280px; height: 360px; margin-top: 0; }
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: grayscale(20%);
+      transition: filter 0.4s ease, transform 0.5s ease;
+      display: block;
+    }
+    .gallery-item:hover img { filter: grayscale(0%); transform: scale(1.04); }
+
+    /* STATS */
     .stats { padding: 0 48px 160px; max-width: 1200px; margin: 0 auto; }
     .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--border); }
     .stat-item {
@@ -285,6 +328,244 @@
     .stat-number span { color: var(--accent); }
     .stat-label { margin-top: 12px; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; }
 
+    /* TESTIMONIALS */
+    .testimonials {
+      padding: 120px 48px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(to bottom, transparent, rgba(200,169,110,0.03), transparent);
+    }
+    .testimonials::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 48px; right: 48px;
+      height: 1px;
+      background: var(--border);
+    }
+    .testimonials-header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+    .testimonials-header .section-label { justify-content: center; }
+    .testimonials-header .section-label::after { display: none; }
+    .testimonials-heading { font-size: clamp(36px, 4vw, 56px); font-weight: 300; }
+    .testimonials-heading em { font-style: italic; color: var(--accent); }
+
+    .testimonials-track-wrap {
+      overflow: hidden;
+      mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+    .testimonials-track {
+      display: flex;
+      gap: 24px;
+      animation: scrollLeft 40s linear infinite;
+      width: max-content;
+    }
+    .testimonials-track:hover { animation-play-state: paused; }
+
+    @keyframes scrollLeft {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .testimonial-card {
+      width: 380px;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+      padding: 40px;
+      position: relative;
+      background: rgba(255,255,255,0.02);
+    }
+    .testimonial-card::before {
+      content: '"';
+      position: absolute;
+      top: 20px; left: 32px;
+      font-size: 80px;
+      line-height: 1;
+      color: var(--accent);
+      opacity: 0.3;
+      font-family: Georgia, serif;
+    }
+    .testimonial-quote {
+      font-size: 17px;
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.7;
+      color: rgba(232,228,220,0.8);
+      margin-top: 32px;
+      margin-bottom: 28px;
+    }
+    .testimonial-author {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+    .testimonial-role {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* VIDEOS */
+    .videos {
+      padding: 120px 48px;
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .videos::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 48px; right: 48px;
+      height: 1px;
+      background: var(--border);
+    }
+    .videos-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 56px;
+    }
+    .videos-heading { font-size: clamp(36px, 4vw, 56px); font-weight: 300; }
+    .videos-heading em { font-style: italic; color: var(--accent); }
+    .videos-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-decoration: none;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(200,169,110,0.3);
+      padding-bottom: 4px;
+      transition: border-color 0.3s;
+    }
+    .videos-link:hover { border-color: var(--accent); }
+
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .video-card {
+      position: relative;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      cursor: none;
+      text-decoration: none;
+      display: block;
+      background: #0d0d0d;
+      border: 1px solid var(--border);
+      transition: border-color 0.3s;
+    }
+    .video-card:hover { border-color: rgba(200,169,110,0.3); }
+    .video-card-inner {
+      position: absolute;
+      inset: 0;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .video-play {
+      width: 52px; height: 52px;
+      border: 1px solid rgba(200,169,110,0.35);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .video-play::after {
+      content: '';
+      width: 0; height: 0;
+      border-style: solid;
+      border-width: 7px 0 7px 12px;
+      border-color: transparent transparent transparent var(--accent);
+      margin-left: 3px;
+    }
+    .video-card:hover .video-play {
+      border-color: var(--accent);
+      background: rgba(200,169,110,0.08);
+    }
+    .video-bottom { display: flex; flex-direction: column; gap: 8px; }
+    .video-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+    }
+    .video-title {
+      font-size: 17px;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(232,228,220,0.85);
+      line-height: 1.4;
+    }
+
+    /* PRESS */
+    .press {
+      padding: 120px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .press::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 48px; right: 48px;
+      height: 1px;
+      background: var(--border);
+    }
+    .press-header { margin-bottom: 56px; }
+    .press-heading { font-size: clamp(36px, 4vw, 56px); font-weight: 300; }
+    .press-heading em { font-style: italic; color: var(--accent); }
+    .press-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .press-item {
+      border: 1px solid var(--border);
+      padding: 32px;
+      text-decoration: none;
+      display: block;
+      transition: background 0.3s, border-color 0.3s;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease, background 0.3s;
+    }
+    .press-item.visible { opacity: 1; transform: translateY(0); }
+    .press-item:hover { background: rgba(200,169,110,0.05); border-color: rgba(200,169,110,0.2); }
+    .press-name {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .press-headline {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.6;
+      color: rgba(232,228,220,0.7);
+    }
+    .press-arrow {
+      margin-top: 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      transition: color 0.3s;
+    }
+    .press-item:hover .press-arrow { color: var(--accent); }
+
+    /* CTA */
     .cta-section {
       padding: 0 48px 160px;
       max-width: 1200px;
@@ -331,6 +612,7 @@
     .btn-arrow { position: relative; z-index: 1; font-size: 14px; transition: transform 0.3s; }
     .btn-shotlist:hover .btn-arrow { transform: translateX(4px); }
 
+    /* FOOTER */
     footer { border-top: 1px solid var(--border); padding: 40px 48px; display: flex; justify-content: space-between; align-items: center; }
     footer p { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; }
     .footer-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
@@ -349,6 +631,16 @@
       .stats-grid { grid-template-columns: 1fr; }
       .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
       .stat-item:last-child { border-bottom: none; }
+      .testimonials { padding: 80px 0; }
+      .testimonials::before { left: 24px; right: 24px; }
+      .testimonials-header { padding: 0 24px; }
+      .videos { padding: 80px 24px; }
+      .videos::before { left: 24px; right: 24px; }
+      .videos-grid { grid-template-columns: 1fr; }
+      .videos-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .press { padding: 80px 24px; }
+      .press::before { left: 24px; right: 24px; }
+      .press-grid { grid-template-columns: 1fr; }
       .cta-section { padding: 0 24px 100px; }
       .cta-section::before { left: 24px; right: 24px; }
       footer { padding: 32px 24px; flex-direction: column; gap: 16px; text-align: center; }
@@ -364,11 +656,13 @@
     <div class="nav-logo">Sukhansh</div>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
-      <li><a href="#work">Work</a></li>
+      <li><a href="#videos">Videos</a></li>
+      <li><a href="#press">Press</a></li>
       <li><a href="shotlist.html">Shotlist</a></li>
     </ul>
   </nav>
 
+  <!-- HERO -->
   <section class="hero">
     <div class="hero-photo"></div>
     <div class="hero-text-wrap">
@@ -388,6 +682,7 @@
     </div>
   </section>
 
+  <!-- ABOUT -->
   <section class="about" id="about">
     <div class="about-left">
       <div class="section-label">About</div>
@@ -400,6 +695,37 @@
     </div>
   </section>
 
+
+  <!-- GALLERY -->
+  <div class="gallery">
+    <div class="gallery-track-wrap" id="galleryWrap">
+      <div class="gallery-track">
+        <div class="gallery-item">
+          <img src="https://suhanishah.com/wp-content/uploads/2023/06/gallery1-1.jpg" alt="Show" loading="lazy" />
+        </div>
+        <div class="gallery-item">
+          <img src="https://suhanishah.com/wp-content/uploads/2023/06/gallery2-1.jpg" alt="Show" loading="lazy" />
+        </div>
+        <div class="gallery-item">
+          <img src="https://suhanishah.com/wp-content/uploads/2023/06/gallery3-1.jpg" alt="Show" loading="lazy" />
+        </div>
+        <div class="gallery-item">
+          <img src="https://suhanishah.com/wp-content/uploads/2023/06/gallery4-1.jpg" alt="Show" loading="lazy" />
+        </div>
+        <div class="gallery-item">
+          <img src="https://suhanishah.com/wp-content/uploads/2023/06/gallery5-1.jpg" alt="Show" loading="lazy" />
+        </div>
+        <div class="gallery-item">
+          <img src="https://suhanishah.com/wp-content/uploads/2024/02/gallery6.jpg" alt="Show" loading="lazy" />
+        </div>
+        <div class="gallery-item">
+          <img src="https://suhanishah.com/wp-content/uploads/2024/03/gallery7.jpg" alt="Show" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
   <div class="stats" id="work">
     <div class="stats-grid">
       <div class="stat-item">
@@ -417,6 +743,207 @@
     </div>
   </div>
 
+  <!-- TESTIMONIALS -->
+  <section class="testimonials" id="testimonials">
+    <div class="testimonials-header">
+      <div class="section-label">Recognition</div>
+      <h2 class="testimonials-heading">What they <em>said.</em></h2>
+    </div>
+    <div class="testimonials-track-wrap">
+      <div class="testimonials-track" id="testimonialsTrack">
+        <div class="testimonial-card">
+          <div class="testimonial-quote">Suhani, You've killed it.</div>
+          <div class="testimonial-author">Himesh Reshammiya</div>
+          <div class="testimonial-role">Singer, Music Director & Film Producer</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">Suhani's personality shines throughout her thought provoking and entertaining show!</div>
+          <div class="testimonial-author">Marvin Berglas</div>
+          <div class="testimonial-role">Award-winning Magician, Founder of Marvin's Magic</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">Deeply mystifying yet highly entertaining. Who knew mindreading could be this much fun?!</div>
+          <div class="testimonial-author">Ian Rowland</div>
+          <div class="testimonial-role">Corporate Speaker & Writer</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">I want to keep her with me to know what my wife thinks. We are going to sign a deal for life.</div>
+          <div class="testimonial-author">Yuzvendra Chahal</div>
+          <div class="testimonial-role">Indian International Cricketer</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">That's crazy; I've got goosebumps. I've no idea how you did that. You're amazing.</div>
+          <div class="testimonial-author">Martin Garrix</div>
+          <div class="testimonial-role">Dutch DJ & Record Producer</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">I would say you're just amazing. That's something new; that's something different.</div>
+          <div class="testimonial-author">PV Sindhu</div>
+          <div class="testimonial-role">Badminton World Champion & Olympic Medalist</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">It was absolutely delightful and spooky!</div>
+          <div class="testimonial-author">Kareena Kapoor Khan</div>
+          <div class="testimonial-role">Bollywood Actress</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">So proud of you Suhani! Well done. God bless you and just keep shining on us.</div>
+          <div class="testimonial-author">Sonu Sood</div>
+          <div class="testimonial-role">Actor, Film Producer & Humanitarian</div>
+        </div>
+        <!-- Duplicate for seamless loop -->
+        <div class="testimonial-card">
+          <div class="testimonial-quote">Suhani, You've killed it.</div>
+          <div class="testimonial-author">Himesh Reshammiya</div>
+          <div class="testimonial-role">Singer, Music Director & Film Producer</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">Suhani's personality shines throughout her thought provoking and entertaining show!</div>
+          <div class="testimonial-author">Marvin Berglas</div>
+          <div class="testimonial-role">Award-winning Magician, Founder of Marvin's Magic</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">Deeply mystifying yet highly entertaining. Who knew mindreading could be this much fun?!</div>
+          <div class="testimonial-author">Ian Rowland</div>
+          <div class="testimonial-role">Corporate Speaker & Writer</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">I want to keep her with me to know what my wife thinks. We are going to sign a deal for life.</div>
+          <div class="testimonial-author">Yuzvendra Chahal</div>
+          <div class="testimonial-role">Indian International Cricketer</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">That's crazy; I've got goosebumps. I've no idea how you did that. You're amazing.</div>
+          <div class="testimonial-author">Martin Garrix</div>
+          <div class="testimonial-role">Dutch DJ & Record Producer</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">I would say you're just amazing. That's something new; that's something different.</div>
+          <div class="testimonial-author">PV Sindhu</div>
+          <div class="testimonial-role">Badminton World Champion & Olympic Medalist</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">It was absolutely delightful and spooky!</div>
+          <div class="testimonial-author">Kareena Kapoor Khan</div>
+          <div class="testimonial-role">Bollywood Actress</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">So proud of you Suhani! Well done. God bless you and just keep shining on us.</div>
+          <div class="testimonial-author">Sonu Sood</div>
+          <div class="testimonial-role">Actor, Film Producer & Humanitarian</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEOS -->
+  <section class="videos" id="videos">
+    <div class="videos-header">
+      <div>
+        <div class="section-label">YouTube</div>
+        <h2 class="videos-heading">Watch the <em>work.</em></h2>
+      </div>
+      <a href="https://www.youtube.com/@SuhaniShah" target="_blank" class="videos-link">View All →</a>
+    </div>
+    <div class="videos-grid">
+      <a href="https://www.youtube.com/watch?v=6tGPXA6V4sY" target="_blank" class="video-card">
+        <div class="video-card-inner">
+          <div class="video-play"></div>
+          <div class="video-bottom">
+            <div class="video-num">01</div>
+            <div class="video-title">Kareena Kapoor SPOOKED!</div>
+          </div>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=rJnG_Tv67j0" target="_blank" class="video-card">
+        <div class="video-card-inner">
+          <div class="video-play"></div>
+          <div class="video-bottom">
+            <div class="video-num">02</div>
+            <div class="video-title">Absolutely speechless!</div>
+          </div>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=5EYUO1fWH08" target="_blank" class="video-card">
+        <div class="video-card-inner">
+          <div class="video-play"></div>
+          <div class="video-bottom">
+            <div class="video-num">03</div>
+            <div class="video-title">Mentalist goes off script!</div>
+          </div>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=TMqsa5cCfvM" target="_blank" class="video-card">
+        <div class="video-card-inner">
+          <div class="video-play"></div>
+          <div class="video-bottom">
+            <div class="video-num">04</div>
+            <div class="video-title">Hacking into phones?</div>
+          </div>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=OBBZLEtKbOw" target="_blank" class="video-card">
+        <div class="video-card-inner">
+          <div class="video-play"></div>
+          <div class="video-bottom">
+            <div class="video-num">05</div>
+            <div class="video-title">Shared psychic connection?</div>
+          </div>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=ylm2BO1UQwM" target="_blank" class="video-card">
+        <div class="video-card-inner">
+          <div class="video-play"></div>
+          <div class="video-bottom">
+            <div class="video-num">06</div>
+            <div class="video-title">Don't hum the song!</div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- PRESS -->
+  <section class="press" id="press">
+    <div class="press-header">
+      <div class="section-label">Press</div>
+      <h2 class="press-heading">In the <em>news.</em></h2>
+    </div>
+    <div class="press-grid">
+      <a href="https://www.theguardian.com/stage/2023/aug/14/edinburghs-superstar-magicians-on-secrets-and-surprises-you-have-to-be-very-good-at-lying" target="_blank" class="press-item">
+        <div class="press-name">The Guardian</div>
+        <div class="press-headline">Edinburgh's superstar magicians on secrets and surprises: 'You have to be very good at lying'</div>
+        <div class="press-arrow">Read Article →</div>
+      </a>
+      <a href="https://www.news18.com/news/lifestyle/mentalist-suhani-shah-announces-her-silver-jubilee-india-tour-5869855.html" target="_blank" class="press-item">
+        <div class="press-name">News 18</div>
+        <div class="press-headline">Suhani Shah made history by being the first female mentalist, illusionist, and magician in India 25 years ago.</div>
+        <div class="press-arrow">Read Article →</div>
+      </a>
+      <a href="https://worldmagicreview.com/2023/08/06/suhani-shah-spellbound/" target="_blank" class="press-item">
+        <div class="press-name">World Magic Review</div>
+        <div class="press-headline">Suhani Shah gets candid about her rise to fame, performing magic virtually, and what Delhiites can expect.</div>
+        <div class="press-arrow">Read Article →</div>
+      </a>
+      <a href="https://economictimes.indiatimes.com/magazines/panache/what-is-a-mentalist-illusionist-magician-suhani-shah-has-the-answers/articleshow/96006048.cms" target="_blank" class="press-item">
+        <div class="press-name">Economic Times</div>
+        <div class="press-headline">What is a mentalist? Illusionist & magician Suhani Shah has the answers.</div>
+        <div class="press-arrow">Read Article →</div>
+      </a>
+      <a href="https://timesofindia.indiatimes.com/life-style/spotlight/my-shows-tell-people-a-lot-about-themselves-says-mentalist-suhani-shah/articleshow/95427376.cms" target="_blank" class="press-item">
+        <div class="press-name">Times of India</div>
+        <div class="press-headline">My shows tell people a lot about themselves, says mentalist Suhani Shah, who completed 25 years in magic.</div>
+        <div class="press-arrow">Read Article →</div>
+      </a>
+      <a href="https://www.thehindu.com/life-and-style/leisure/mentalist-suhani-shah-is-all-set-to-mesmerise-bangaloreans/article65970971.ece" target="_blank" class="press-item">
+        <div class="press-name">The Hindu</div>
+        <div class="press-headline">Mentalist Suhani Shah is all set to mesmerise Bangaloreans.</div>
+        <div class="press-arrow">Read Article →</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- CTA -->
   <section class="cta-section">
     <p class="cta-eyebrow">Work</p>
     <h2 class="cta-heading">See the work<br>behind the <em>scenes.</em></h2>
@@ -482,8 +1009,25 @@
       });
     }, { threshold: 0.15 });
 
-    document.querySelectorAll('.about-left, .about-right, .stat-item').forEach(el => {
+    document.querySelectorAll('.about-left, .about-right, .stat-item, .press-item').forEach(el => {
       observer.observe(el);
+    });
+
+    // Gallery drag scroll
+    const galleryWrap = document.getElementById('galleryWrap');
+    let isDown = false, startX, scrollLeft;
+    galleryWrap.addEventListener('mousedown', e => {
+      isDown = true;
+      startX = e.pageX - galleryWrap.offsetLeft;
+      scrollLeft = galleryWrap.scrollLeft;
+    });
+    galleryWrap.addEventListener('mouseleave', () => isDown = false);
+    galleryWrap.addEventListener('mouseup', () => isDown = false);
+    galleryWrap.addEventListener('mousemove', e => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - galleryWrap.offsetLeft;
+      galleryWrap.scrollLeft = scrollLeft - (x - startX) * 1.5;
     });
   </script>
 </body>
