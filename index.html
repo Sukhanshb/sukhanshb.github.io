@@ -441,15 +441,11 @@
     }
     .testimonials-track {
       display: flex; gap: 20px;
-      animation: scrollLeft 75s linear infinite;
       width: max-content;
+      will-change: transform;
     }
     .testimonials-track:hover { animation-play-state: paused; }
     @media (max-width: 768px) {
-      .testimonials-track {
-        animation-duration: 40s;
-        gap: 14px;
-      }
       .testimonial-card { width: 280px; padding: 28px 24px 24px; }
     }
     @keyframes scrollLeft {
@@ -571,8 +567,8 @@
     }
     .press-thumb img {
       width: 100%; height: 100%; object-fit: cover;
-      object-position: center top;
-      filter: grayscale(20%);
+      object-position: center center;
+      filter: grayscale(15%);
       transition: filter 0.4s, transform 0.5s cubic-bezier(0.16,1,0.3,1);
     }
     .press-item:hover .press-thumb img { filter: grayscale(0%); transform: scale(1.04); }
@@ -881,7 +877,7 @@
     <div class="press-grid">
       <a href="https://www.theguardian.com/stage/2023/aug/14/edinburghs-superstar-magicians-on-secrets-and-surprises-you-have-to-be-very-good-at-lying" target="_blank" class="press-item">
         <div class="press-thumb">
-          <img src="https://suhanishah.com/wp-content/uploads/2024/02/image.png" alt="The Guardian" style="object-position:center center; object-fit:contain; padding:16px; background:#111;" />
+          <img src="https://suhanishah.com/wp-content/uploads/2023/06/gallery3-1.jpg" alt="The Guardian" style="object-position:center center;" />
           <span class="press-thumb-logo">The Guardian</span>
         </div>
         <div class="press-body">
@@ -892,7 +888,7 @@
       </a>
       <a href="https://www.news18.com/news/lifestyle/mentalist-suhani-shah-announces-her-silver-jubilee-india-tour-5869855.html" target="_blank" class="press-item">
         <div class="press-thumb">
-          <img src="https://suhanishah.com/wp-content/uploads/2023/01/Screenshot-2023-06-29-at-2.40-1.png" alt="News 18" style="object-position:center top;" />
+          <img src="https://suhanishah.com/wp-content/uploads/2023/06/gallery1-1.jpg" alt="News 18" style="object-position:center 20%;" />
           <span class="press-thumb-logo">News 18</span>
         </div>
         <div class="press-body">
@@ -903,7 +899,7 @@
       </a>
       <a href="https://worldmagicreview.com/2023/08/06/suhani-shah-spellbound/" target="_blank" class="press-item">
         <div class="press-thumb">
-          <img src="https://suhanishah.com/wp-content/uploads/2023/06/gallery5-1_1900x1140.webp" alt="World Magic Review" style="object-position:center 20%;" />
+          <img src="https://suhanishah.com/wp-content/uploads/2023/06/gallery4-1.jpg" alt="World Magic Review" style="object-position:center center;" />
           <span class="press-thumb-logo">World Magic Review</span>
         </div>
         <div class="press-body">
@@ -914,7 +910,7 @@
       </a>
       <a href="https://economictimes.indiatimes.com/magazines/panache/what-is-a-mentalist-illusionist-magician-suhani-shah-has-the-answers/articleshow/96006048.cms" target="_blank" class="press-item">
         <div class="press-thumb">
-          <img src="https://suhanishah.com/wp-content/uploads/2023/06/Frame-234.png" alt="Economic Times" style="object-position:center center; object-fit:contain; padding:20px; background:#0e0e0e;" />
+          <img src="https://suhanishah.com/wp-content/uploads/2023/06/gallery2-1.jpg" alt="Economic Times" style="object-position:center center;" />
           <span class="press-thumb-logo">Economic Times</span>
         </div>
         <div class="press-body">
@@ -925,7 +921,7 @@
       </a>
       <a href="https://timesofindia.indiatimes.com/life-style/spotlight/my-shows-tell-people-a-lot-about-themselves-says-mentalist-suhani-shah/articleshow/95427376.cms" target="_blank" class="press-item">
         <div class="press-thumb">
-          <img src="https://suhanishah.com/wp-content/uploads/2023/06/Frame-236.png" alt="Times of India" style="object-position:center center; object-fit:contain; padding:20px; background:#0e0e0e;" />
+          <img src="https://suhanishah.com/wp-content/uploads/2024/03/gallery7.jpg" alt="Times of India" style="object-position:center center;" />
           <span class="press-thumb-logo">Times of India</span>
         </div>
         <div class="press-body">
@@ -936,7 +932,7 @@
       </a>
       <a href="https://www.thehindu.com/life-and-style/leisure/mentalist-suhani-shah-is-all-set-to-mesmerise-bangaloreans/article65970971.ece" target="_blank" class="press-item">
         <div class="press-thumb">
-          <img src="https://suhanishah.com/wp-content/uploads/2023/06/Frame-232.png" alt="The Hindu" style="object-position:center center; object-fit:contain; padding:20px; background:#0e0e0e;" />
+          <img src="https://suhanishah.com/wp-content/uploads/2024/02/gallery6.jpg" alt="The Hindu" style="object-position:center center;" />
           <span class="press-thumb-logo">The Hindu</span>
         </div>
         <div class="press-body">
@@ -965,6 +961,35 @@
   </footer>
 
   <script>
+    // ── TESTIMONIALS TICKER ──
+    (function() {
+      const track = document.querySelector('.testimonials-track');
+      if (!track) return;
+      const PX_PER_SEC = 60; // constant speed regardless of screen size
+      let pos = 0;
+      let paused = false;
+      let lastTime = null;
+      const halfWidth = track.scrollWidth / 2;
+
+      track.parentElement.addEventListener('mouseenter', () => paused = true);
+      track.parentElement.addEventListener('mouseleave', () => paused = false);
+      track.parentElement.addEventListener('touchstart', () => paused = true, { passive: true });
+      track.parentElement.addEventListener('touchend', () => { setTimeout(() => paused = false, 1200); }, { passive: true });
+
+      function tick(ts) {
+        if (!lastTime) lastTime = ts;
+        const dt = (ts - lastTime) / 1000;
+        lastTime = ts;
+        if (!paused) {
+          pos += PX_PER_SEC * dt;
+          if (pos >= halfWidth) pos -= halfWidth;
+          track.style.transform = `translateX(-${pos}px)`;
+        }
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    })();
+
     // ── MOBILE MENU ──
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
