@@ -203,7 +203,34 @@
     }
     .hero-name-wrap {
       position: relative;
-      opacity: 0; animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) forwards 0.4s;
+      opacity: 1;
+    }
+    .hero-name-letter {
+      display: inline-block;
+      opacity: 0;
+      filter: blur(8px);
+      transform: translateY(8px) scale(0.96);
+      transition:
+        opacity 1.4s cubic-bezier(0.22,1,0.36,1),
+        filter 1.4s cubic-bezier(0.22,1,0.36,1),
+        transform 1.4s cubic-bezier(0.22,1,0.36,1);
+    }
+    .hero-name-letter.in {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0) scale(1);
+    }
+    .hero-name-ghost-letter {
+      display: inline-block;
+      opacity: 0;
+      filter: blur(10px);
+      transition:
+        opacity 1.8s cubic-bezier(0.22,1,0.36,1),
+        filter 1.8s cubic-bezier(0.22,1,0.36,1);
+    }
+    .hero-name-ghost-letter.in {
+      opacity: 1;
+      filter: blur(0);
     }
     .hero-name-ghost {
       position: absolute; top: 50%; left: -12px;
@@ -735,8 +762,8 @@
     <div class="hero-content">
       <div class="hero-tag">Production Manager · Mumbai</div>
       <div class="hero-name-wrap">
-        <div class="hero-name-ghost">SUKHI</div>
-        <h1 class="hero-name">SUKHANSH</h1>
+        <div class="hero-name-ghost" id="ghostName"></div>
+        <h1 class="hero-name" id="mainName"></h1>
       </div>
       <div class="hero-sub">
         <div class="hero-sub-line"></div>
@@ -961,6 +988,44 @@
   </footer>
 
   <script>
+    // ── NAME SOFT REVEAL ──
+    (function() {
+      const mainEl = document.getElementById('mainName');
+      const ghostEl = document.getElementById('ghostName');
+      const mainWord = 'SUKHANSH';
+      const ghostWord = 'SUKHI';
+
+      ghostWord.split('').forEach(ch => {
+        const span = document.createElement('span');
+        span.className = 'hero-name-ghost-letter';
+        span.textContent = ch;
+        ghostEl.appendChild(span);
+      });
+
+      mainWord.split('').forEach(ch => {
+        const span = document.createElement('span');
+        span.className = 'hero-name-letter';
+        span.textContent = ch;
+        mainEl.appendChild(span);
+      });
+
+      const ghostLetters = ghostEl.querySelectorAll('.hero-name-ghost-letter');
+      const mainLetters = mainEl.querySelectorAll('.hero-name-letter');
+
+      // Soft, overlapping reveal — letters drift in gently, not typed
+      const GHOST_START = 300;
+      const GHOST_STEP  = 110;   // gentle overlap
+      const MAIN_START  = 600;
+      const MAIN_STEP   = 70;    // letters bloom in softly, overlapping heavily
+
+      ghostLetters.forEach((el, i) => {
+        setTimeout(() => el.classList.add('in'), GHOST_START + i * GHOST_STEP);
+      });
+      mainLetters.forEach((el, i) => {
+        setTimeout(() => el.classList.add('in'), MAIN_START + i * MAIN_STEP);
+      });
+    })();
+
     // ── TESTIMONIALS TICKER ──
     (function() {
       const track = document.querySelector('.testimonials-track');
